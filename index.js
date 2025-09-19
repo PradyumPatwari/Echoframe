@@ -19,18 +19,21 @@ document.getElementById("scanBtn").addEventListener("click", async () => {
   try {
     let response, data;
 
+    // 🚀 Backend API URL (Render pe host kiya hua)
+    const BACKEND_URL = "https://echoframe.onrender.com";
+
     if (fileInput.files.length > 0) {
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
-      response = await fetch("http://127.0.0.1:5000/analyze", {
+      response = await fetch(`${BACKEND_URL}/analyze-file`, {
         method: "POST",
         body: formData
       });
     } else if (urlInput) {
-      response = await fetch("http://127.0.0.1:5000/analyze", {
+      response = await fetch(`${BACKEND_URL}/analyze`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ url: urlInput })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mediaUrl: urlInput })   // ✅ yaha `mediaUrl` use karna
       });
     } else {
       alert("Please upload a file or paste a URL.");
